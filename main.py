@@ -97,18 +97,20 @@ def display_roll_dice():
     back_button.pack(pady=(5, 20))
 def display_roll_history():
     clear(app)
-    history_label_title = ctk.CTkLabel(app, text="Roll History", font=("", 25))
+    scrollable_frame = ctk.CTkScrollableFrame(app, width=380, height=380)
+    scrollable_frame.pack(fill="both", expand=True, padx=20, pady=20)
+    history_label_title = ctk.CTkLabel(scrollable_frame, text="Roll History", font=("", 25))
     history_label_title.pack(pady=10)
     cursor.execute("SELECT roll_result, timestamp FROM rolls WHERE user_id=(SELECT id FROM users WHERE username=?) ORDER BY timestamp DESC", (current_user,))
     rolls = cursor.fetchall()
     if rolls:
         for roll_result, timestamp in rolls:
-            roll_label = ctk.CTkLabel(app, text=f"Rolled {roll_result} on {timestamp}", font=("", 16))
+            roll_label = ctk.CTkLabel(scrollable_frame, text=f"Rolled {roll_result} on {timestamp}", font=("", 16))
             roll_label.pack(pady=5)
     else:
-        no_rolls_label = ctk.CTkLabel(app, text="No rolls found.", font=("", 16))
+        no_rolls_label = ctk.CTkLabel(scrollable_frame, text="No rolls found.", font=("", 16))
         no_rolls_label.pack(pady=5)
-    back_button = ctk.CTkButton(app, text="Back to Roll Dice", fg_color="transparent", text_color="#1f538d", command=lambda: [clear(app), display_roll_dice()])
+    back_button = ctk.CTkButton(scrollable_frame, text="Back to Roll Dice", fg_color="transparent", text_color="#1f538d", command=lambda: [clear(app), display_roll_dice()])
     back_button.pack(pady=(5, 20))
 def on_close():
     conn.close()
