@@ -1,6 +1,8 @@
 import customtkinter as ctk
 import sqlite3
-import random 
+import random
+import pytz
+from datetime import datetime
 from PIL import Image
 from customtkinter import CTkImage
 from assets.functions import entry_fields, clear
@@ -87,7 +89,9 @@ def display_roll_dice():
     def roll_dice():
         global current_user
         roll_result = random.randint(1, 20)
-        cursor.execute("INSERT INTO rolls (user_id, roll_result) VALUES ((SELECT id FROM users WHERE username=?), ?)", (current_user, roll_result,))
+        br_tz=pytz.timezone("America/Sao_Paulo")
+        now_br=datetime.now(br_tz).strftime("%H:%M:%S")
+        cursor.execute("INSERT INTO rolls (user_id, roll_result, timestamp) VALUES ((SELECT id FROM users WHERE username=?), ?, ?)", (current_user, roll_result, now_br))
         roll_result_label.configure(text=f"You rolled a {roll_result}")
     roll_button = ctk.CTkButton(app, text="Roll the dice", command=lambda:[roll_dice()])
     roll_button.pack(pady=10)
