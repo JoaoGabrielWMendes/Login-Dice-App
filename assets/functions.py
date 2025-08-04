@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import sqlite3
+import time 
 con = sqlite3.connect("users.db")
 cur = con.cursor()
 def entry_fields(label_text,entry_placeholder):
@@ -11,3 +12,5 @@ def entry_fields(label_text,entry_placeholder):
 def clear(app):
     for widget in app.winfo_children():
         widget.destroy()
+def aguarde(sec):
+    time.sleep(sec)

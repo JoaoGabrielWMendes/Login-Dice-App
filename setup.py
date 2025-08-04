@@ -6,7 +6,7 @@ cx_Freeze.setup(
     version="1.1.1",
     options={
         "build_exe":{
-            "packages":["customtkinter", "sqlite3", "pytz"],
+            "packages":["customtkinter", "sqlite3", "pytz", "PIL"],
             "include_files":["assets"]
         }
     }, executables = executaveis
